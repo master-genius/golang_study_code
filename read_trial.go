@@ -25,7 +25,9 @@ func main() {
         fmt.Println(err.Error())
         return
     }
-    fmt.Println(string(data))
+    text_data := string(data)
+    fmt.Println(text_data[0:16384])
+    //fmt.Println(string(data))
 }
 
 func cpu_runtime(t time.Time) {

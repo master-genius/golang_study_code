@@ -6,14 +6,17 @@ import (
 )
 
 func main() {
-    start_http_server();
-
+    start_http_server()
 }
 
 func start_http_server() {
     http.HandleFunc("/index",handler_main)
     http.HandleFunc("/",handler_main)
     http.HandleFunc("/info",handler_info)
+    http.HandleFunc("/test",handler_test)
+
+    fh := http.FileServer( http.Dir("/home/wy/go/resource/") )
+    http.Handle("/resource/", http.StripPrefix("/resource/",  fh) )
 
     err := http.ListenAndServe(":8080",nil)
     if err!=nil {
@@ -22,10 +25,37 @@ func start_http_server() {
 }
 
 func handler_main(rw http.ResponseWriter, req *http.Request) {
-    rw.Write([]byte("Hello,world"))
+    var html string = "<p>Hello! This is the main page.</p>"
+    html += "<p><a href=\"/info\">Show Info</a></p>"+
+        "<p><a href=\"/test\">Show test</a></p>"
+    rw.Write([]byte(create_html_page(html)))
 }
 
 func handler_info(rw http.ResponseWriter, req *http.Request) {
-    var info string = "Name: Bravewang\nJob: programmer\nEmail: 1146040444@qq.com"
-    rw.Write([]byte(info))
+    var info string = "<p>Name: Bravewang<br>Job: programmer<br>"+
+            "Email: 1146040444@qq.com</p>"+
+            "<a href=\"/index\">Home</a>"
+    rw.Write([]byte(create_html_page(info)))
 }
+
+func handler_test(rw http.ResponseWriter, req *http.Request) {
+    var info string = "<a href=\"/index\">Home</a>"+
+            "<p><h3>Test page</h3></p>"+
+            "<p>I am a programming master.</p>"+
+            "<p>hahahahahahahahahahaha.Hello world."+
+            "abcdefghijklmn</p>"
+    rw.Write([]byte(create_html_page(info)))
+}
+
+func create_html_page(content string) string {
+    var header string = "<!DOCTYPE html><html><head><meta charset=\"utf-8\">"
+    header += "<meta name=\"viewport\" content=\"width=device-width\">"
+    header += "<style>a{color:#009acd;text-decoration:none;}</style>"
+    header += "<script src=\"/resource/brutal.js\"></script>"
+    header += "</head><body><div style=\"width:70%;margin:auto;overflow-x:hidden;\">"
+    var footer string = "</div><div id=\"test-info\"></div>"+
+        "<script>brutal.htmlId('test-info','hello')</script>"+
+        "</body></html>"
+    return header + content + footer
+}
+

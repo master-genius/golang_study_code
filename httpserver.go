@@ -51,10 +51,11 @@ func create_html_page(content string) string {
     var header string = "<!DOCTYPE html><html><head><meta charset=\"utf-8\">"
     header += "<meta name=\"viewport\" content=\"width=device-width\">"
     header += "<style>a{color:#009acd;text-decoration:none;}</style>"
-    header += "<script src=\"/resource/brutal.js\"></script>"
+    header += "<script src=\"/resource/brutal_1709.js\"></script>"
     header += "</head><body><div style=\"width:70%;margin:auto;overflow-x:hidden;\">"
-    var footer string = "</div><div id=\"test-info\"></div>"+
-        "<script>brutal.htmlId('test-info','hello')</script>"+
+    var footer string = "</div><div class=\"row\">"+
+            "<div class=\"column small-12\" id=\"test-info\"></div></div>"+
+        "<script>brutal.autod('#test-info','Hello,this is brutal.js test info.');</script>"+
         "</body></html>"
     return header + content + footer
 }

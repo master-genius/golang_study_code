@@ -3,6 +3,7 @@ package main
 import (
     "net/http"
     "log"
+    "fmt"
 )
 
 func main() {
@@ -10,6 +11,7 @@ func main() {
 }
 
 func start_http_server() {
+    fmt.Println("Server running at 8080 port")
     http.HandleFunc("/index",handler_main)
     http.HandleFunc("/",handler_main)
     http.HandleFunc("/info",handler_info)
@@ -62,3 +64,4 @@ func create_html_page(content string) string {
         "</body></html>"
     return header + content + footer
 }
+

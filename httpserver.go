@@ -17,7 +17,7 @@ func start_http_server() {
     http.HandleFunc("/info",handler_info)
     http.HandleFunc("/test",handler_test)
 
-    fh := http.FileServer( http.Dir("/home/wy/go/resource/") )
+    fh := http.FileServer( http.Dir("/home/wy/wgo/resource/") )
     http.Handle("/resource/", http.StripPrefix("/resource/",  fh) )
 
     err := http.ListenAndServe(":8080",nil)
